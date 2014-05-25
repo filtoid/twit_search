@@ -12,6 +12,14 @@ include 'settings.php';
 
 header('Content-Type: application/json');
 
+// We need a q var to continue - the search term we are going to use.
+if(!isset($_GET['q'])){
+	$ary = array( 'status' => 'error: need a q input' );
+	echo( json_encode($ary));
+	exit();
+}
+$q = $_GET['q'];
+
 $url = "https://api.twitter.com/oauth2/token"; // url to send data to for authentication
 $headers = array( 
     "POST /oauth2/token HTTP/1.1", 
@@ -45,11 +53,12 @@ foreach($output as $line)
 	}
 }
 
+// Now we have a token we can make requests with so we can now do searches with it
 $bearer_token = json_decode($bearer_token);
 
-$url = "https://api.twitter.com/1.1/search/tweets.json?q=durham "; // url to send data to for authentication
+$url = "https://api.twitter.com/1.1/search/tweets.json?q=".$q; // url to send data to for authentication
 $headers = array( 
-    "GET /1.1/search/tweets.json?q=durham HTTP/1.1", 
+    "GET /1.1/search/tweets.json?q=" . $q . " HTTP/1.1", 
     "Host: api.twitter.com", 
     "User-Agent: my Twitter App v.1",
     "Authorization: Bearer ".$bearer_token->{'access_token'}.""
@@ -57,7 +66,7 @@ $headers = array(
 
 $ch = curl_init(); // setup a curl
 curl_setopt($ch, CURLOPT_URL,$url); // set url to send to
-curl_setopt($cURL, CURLOPT_HTTPGET, true);
+curl_setopt($ch, CURLOPT_HTTPGET, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); // set custom headers
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // return output
 curl_setopt($ch, CURLOPT_VERBOSE, 0);
