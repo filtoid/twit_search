@@ -14,10 +14,10 @@ Prerequisites before building C++ code
 
 (Important: Don't use sudo unless you know what the implications of doing so are)
 
-You need to install the library libcurl3 by typing:
-	```sudo apt-get install libcurl3```
+You need to install the library libcurl4 developer libraries and dependencies by typing:
+	```sudo apt-get install libcurl4-openssl-dev```
 
-You will also need jsoncpp which you can install using:
+You will also need jsoncpp developer libraries which you can install using:
 	```sudo apt-get install libjsoncpp-dev```
 
 ----------------------------------------------------------------------------------
